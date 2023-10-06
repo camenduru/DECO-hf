@@ -1,5 +1,5 @@
 ---
-title:  DECO: Dense Estimation of 3D Human-Scene Contact in the Wild
+title:  Dense Estimation of 3D Human-Scene Contact in the Wild
 metaTitle: DECO
 emoji: 🤼
 colorFrom: green
