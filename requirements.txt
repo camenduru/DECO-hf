@@ -1,0 +1,14 @@
+opencv-python
+loguru
+monai
+pyrender==0.1.33
+smplx==0.1.28
+scikit-learn
+scikit-image
+jpeg4py
+matplotlib
+pandas
+configargparse
+flatten_dict
+chumpy
+numpy==1.23.1
