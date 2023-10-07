@@ -5,14 +5,16 @@ import numpy as np
 import cv2
 import PIL.Image as pil_img
 import sys
+
+print(os.path.abspath(__file__))
+os.system('pip install gradio==3.47.1')
+os.system('pip install networkx')
+os.system('sh fetch_data.sh')
+
 import gradio as gr
 
 import trimesh
 import pyrender
-
-print(os.path.abspath(__file__))
-os.system('pip install gradio==3.47.1')
-os.system('sh fetch_data.sh')
 
 from models.deco import DECO
 from common import constants
