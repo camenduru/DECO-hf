@@ -9,7 +9,6 @@ import sys
 print(os.path.abspath(__file__))
 os.system('pip install gradio==3.47.1')
 os.system('pip install networkx')
-os.system('sh fetch_data.sh')
 
 import gradio as gr
 
@@ -137,13 +136,13 @@ def create_scene(mesh, img, focal_length=500, camera_center=250, img_res=500):
     IMG.thumbnail((3000, 3000))
     return IMG    
 
-def main(args, img_src, out_dir, mesh_colour=[130, 130, 130, 255], annot_colour=[0, 255, 0, 255]):
+def main(img_src, out_dir, model_path='checkpoint/deco_best.pth', mesh_colour=[130, 130, 130, 255], annot_colour=[0, 255, 0, 255]):
     if os.path.isdir(img_src):
         images = glob.iglob(img_src + '/*', recursive=True)
     else:
         images = [img_src]
 
-    deco_model = initiate_model(args)
+    deco_model = initiate_model(model_path)
     
     smpl_path = os.path.join(constants.SMPL_MODEL_DIR, 'smpl_neutral_tpose.ply')
     
