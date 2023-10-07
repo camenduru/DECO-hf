@@ -11,8 +11,6 @@ import trimesh
 import pyrender
 
 print(os.path.abspath(__file__))
-os.system('pip install /home/user/app/vendor/pyrender')
-sys.path.append('/home/user/app/vendor/pyrender')
 os.system('pip install gradio==3.47.1')
 os.system('sh fetch_data.sh')
 
