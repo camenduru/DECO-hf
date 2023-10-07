@@ -1,14 +1,13 @@
 ---
 title:  Dense Estimation of 3D Human-Scene Contact in the Wild
 metaTitle: DECO
-emoji: 🤼
-colorFrom: green
-colorTo: pink
+emoji: 🤗
+colorFrom: yellow
+colorTo: orange
 sdk: gradio
-sdk_version: 3.27.0
-app_file: app.py
-pinned: true
 python_version: 3.9
+app_file: app.py
+pinned: false
 ---
 
 ### DECO: Dense Estimation of 3D Human-Scene Contact in the Wild (ICCV 2023, Oral)
