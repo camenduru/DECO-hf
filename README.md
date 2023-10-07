@@ -5,6 +5,7 @@ emoji: 🤗
 colorFrom: yellow
 colorTo: orange
 sdk: gradio
+sdk_version: 3.47.1
 python_version: 3.9
 app_file: app.py
 pinned: false
