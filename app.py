@@ -135,54 +135,48 @@ def create_scene(mesh, img, focal_length=500, camera_center=250, img_res=500):
     IMG.thumbnail((3000, 3000))
     return IMG    
 
-def main(img_src, out_dir, model_path='checkpoint/deco_best.pth', mesh_colour=[130, 130, 130, 255], annot_colour=[0, 255, 0, 255]):
-    if os.path.isdir(img_src):
-        images = glob.iglob(img_src + '/*', recursive=True)
-    else:
-        images = [img_src]
-
+def main(img_src, out_dir='demo_out', model_path='checkpoint/deco_best.pth', mesh_colour=[130, 130, 130, 255], annot_colour=[0, 255, 0, 255]):
     deco_model = initiate_model(model_path)
     
     smpl_path = os.path.join(constants.SMPL_MODEL_DIR, 'smpl_neutral_tpose.ply')
     
-    for img_name in images:
-        img = cv2.imread(img_name)
-        img = cv2.resize(img, (256, 256), cv2.INTER_CUBIC)
-        img = img.transpose(2,0,1)/255.0
-        img = img[np.newaxis,:,:,:]
-        img = torch.tensor(img, dtype = torch.float32).to(device)
+    img = cv2.imread(img_src)
+    img = cv2.resize(img, (256, 256), cv2.INTER_CUBIC)
+    img = img.transpose(2,0,1)/255.0
+    img = img[np.newaxis,:,:,:]
+    img = torch.tensor(img, dtype = torch.float32).to(device)
 
-        cont, _, _ = deco_model(img)
-        cont = cont.detach().cpu().numpy().squeeze()
-        cont_smpl = []
-        for indx, i in enumerate(cont):
-            if i >= 0.5:
-                cont_smpl.append(indx)
+    cont, _, _ = deco_model(img)
+    cont = cont.detach().cpu().numpy().squeeze()
+    cont_smpl = []
+    for indx, i in enumerate(cont):
+        if i >= 0.5:
+            cont_smpl.append(indx)
         
-        img = img.detach().cpu().numpy()		
-        img = np.transpose(img[0], (1, 2, 0))		
-        img = img * 255		
-        img = img.astype(np.uint8)
+    img = img.detach().cpu().numpy()		
+    img = np.transpose(img[0], (1, 2, 0))		
+    img = img * 255		
+    img = img.astype(np.uint8)
         
-        contact_smpl = np.zeros((1, 1, 6890))
-        contact_smpl[0][0][cont_smpl] = 1
+    contact_smpl = np.zeros((1, 1, 6890))
+    contact_smpl[0][0][cont_smpl] = 1
 
-        body_model_smpl = trimesh.load(smpl_path, process=False)
-        for vert in range(body_model_smpl.visual.vertex_colors.shape[0]):
-            body_model_smpl.visual.vertex_colors[vert] = mesh_colour
-        body_model_smpl.visual.vertex_colors[cont_smpl] = annot_colour
+    body_model_smpl = trimesh.load(smpl_path, process=False)
+    for vert in range(body_model_smpl.visual.vertex_colors.shape[0]):
+        body_model_smpl.visual.vertex_colors[vert] = mesh_colour
+    body_model_smpl.visual.vertex_colors[cont_smpl] = annot_colour
 
-        rend = create_scene(body_model_smpl, img)
-        os.makedirs(os.path.join(out_dir, 'Renders'), exist_ok=True) 
-        rend.save(os.path.join(out_dir, 'Renders', os.path.basename(img_name).split('.')[0] + '.png'))
+    rend = create_scene(body_model_smpl, img)
+    os.makedirs(os.path.join(out_dir, 'Renders'), exist_ok=True) 
+    rend.save(os.path.join(out_dir, 'Renders', os.path.basename(img_src).split('.')[0] + '.png'))
                   
-        mesh_out_dir = os.path.join(out_dir, 'Preds', os.path.basename(img_name).split('.')[0])
-        os.makedirs(mesh_out_dir, exist_ok=True)          
+    mesh_out_dir = os.path.join(out_dir, 'Preds', os.path.basename(img_src).split('.')[0])
+    os.makedirs(mesh_out_dir, exist_ok=True)          
 
-        print(f'Saving mesh to {mesh_out_dir}')
-        body_model_smpl.export(os.path.join(mesh_out_dir, 'pred.obj'))
+    print(f'Saving mesh to {mesh_out_dir}')
+    body_model_smpl.export(os.path.join(mesh_out_dir, 'pred.obj'))
 
-    return out_dir   
+    return rend, os.path.join(mesh_out_dir, 'pred.obj') 
 
 with gr.Blocks(title="DECO", css=".gradio-container") as demo:
 
@@ -197,20 +191,17 @@ with gr.Blocks(title="DECO", css=".gradio-container") as demo:
 
     gr.HTML("""<br/>""")
 
-    # with gr.Row():
-    #     threshold = gr.Slider(0, 1.0, value=0.6, label='Detection Threshold')
-    #     send_btn = gr.Button("Infer")
-    #     send_btn.click(fn=main, inputs=[input_image, threshold], outputs=[output_image, output_meshes])
+    with gr.Row():
+        send_btn = gr.Button("Infer")
+        send_btn.click(fn=main, inputs=[input_image], outputs=[output_image, output_meshes])
 
-    # example_images = gr.Examples([
-    #     ['/home/user/app/assets/test1.png'], 
-    #     ['/home/user/app/assets/test2.jpg'], 
-    #     ['/home/user/app/assets/test3.jpg'], 
-    #     ['/home/user/app/assets/test4.jpg'], 
-    #     ['/home/user/app/assets/test5.jpg'], 
-    #     ], 
-    #     inputs=[input_image, 0.6])
+    example_images = gr.Examples([
+        ['/home/user/app/example_images/213.jpg'], 
+        ['/home/user/app/example_images/pexels-photo-207569.webp'], 
+        ['/home/user/app/example_images/pexels-photo-3622517.webp'], 
+        ['/home/user/app/example_images/pexels-photo-15732209.jpegtest4.jpg'], 
+        ], 
+        inputs=[input_image])
 
 
-#demo.queue()
 demo.launch(debug=True) 
