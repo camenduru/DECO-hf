@@ -8,7 +8,7 @@ import sys
 
 print(os.path.abspath(__file__))
 os.system('pip install gradio==3.47.1')
-os.system('pip install networkx')
+os.system('pip install networkx>=2.5')
 
 import gradio as gr
 
