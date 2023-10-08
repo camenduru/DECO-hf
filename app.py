@@ -199,7 +199,7 @@ with gr.Blocks(title="DECO", css=".gradio-container") as demo:
         ['/home/user/app/example_images/213.jpg'], 
         ['/home/user/app/example_images/pexels-photo-207569.webp'], 
         ['/home/user/app/example_images/pexels-photo-3622517.webp'], 
-        ['/home/user/app/example_images/pexels-photo-15732209.jpegtest4.jpg'], 
+        ['/home/user/app/example_images/pexels-photo-15732209.jpeg'], 
         ], 
         inputs=[input_image])
 
