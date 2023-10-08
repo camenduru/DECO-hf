@@ -1,7 +1,8 @@
 opencv-python
 loguru
 monai
-pyrender==0.1.33
+# pyrender==0.1.33
+pyrender
 smplx==0.1.28
 scikit-learn
 scikit-image

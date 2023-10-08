@@ -6,8 +6,8 @@ import cv2
 import PIL.Image as pil_img
 import sys
 
-print(os.path.abspath(__file__))
-os.system('pip install networkx==2.5')
+# print(os.path.abspath(__file__))
+# os.system('pip install networkx==2.5')
 
 import gradio as gr
 
