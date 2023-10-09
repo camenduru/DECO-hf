@@ -4,10 +4,12 @@ import glob
 import numpy as np
 import cv2
 import PIL.Image as pil_img
-import sys
+import subprocess
 
-# print(os.path.abspath(__file__))
-# os.system('pip install networkx==2.5')
+subprocess.run(
+    'pip install networkx==2.5'
+    .split()
+)
 
 import gradio as gr
 
@@ -170,9 +172,9 @@ def main(pil_img, out_dir='demo_out', model_path='checkpoint/deco_best.pth', mes
 
     rend = create_scene(body_model_smpl, img)
     os.makedirs(os.path.join(out_dir, 'Renders'), exist_ok=True) 
-    rend.save(os.path.join(out_dir, 'Renders', os.path.basename(img_src).split('.')[0] + '.png'))
+    rend.save(os.path.join(out_dir, 'Renders', 'pred.png'))
                   
-    mesh_out_dir = os.path.join(out_dir, 'Preds', os.path.basename(img_src).split('.')[0])
+    mesh_out_dir = os.path.join(out_dir, 'Preds')
     os.makedirs(mesh_out_dir, exist_ok=True)          
 
     print(f'Saving mesh to {mesh_out_dir}')

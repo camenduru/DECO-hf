@@ -5,8 +5,7 @@ torchvision==0.14.0+cu117
 opencv-python
 loguru
 monai
-# pyrender==0.1.33
-pyrender
+pyrender==0.1.33
 smplx==0.1.28
 scikit-learn
 scikit-image
@@ -18,3 +17,5 @@ flatten_dict
 chumpy
 numpy==1.23.1
 yacs
+gradio
+ipykernel
