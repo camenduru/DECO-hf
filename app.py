@@ -146,7 +146,8 @@ def main(img_src, out_dir='demo_out', model_path='checkpoint/deco_best.pth', mes
     img = img[np.newaxis,:,:,:]
     img = torch.tensor(img, dtype = torch.float32).to(device)
 
-    cont, _, _ = deco_model(img)
+    with torch.no_grad():
+        cont, _, _ = deco_model(img)
     cont = cont.detach().cpu().numpy().squeeze()
     cont_smpl = []
     for indx, i in enumerate(cont):
