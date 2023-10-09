@@ -135,13 +135,14 @@ def create_scene(mesh, img, focal_length=500, camera_center=250, img_res=500):
     IMG.thumbnail((3000, 3000))
     return IMG    
 
-def main(img_src, out_dir='demo_out', model_path='checkpoint/deco_best.pth', mesh_colour=[130, 130, 130, 255], annot_colour=[0, 255, 0, 255]):
+def main(pil_img, out_dir='demo_out', model_path='checkpoint/deco_best.pth', mesh_colour=[130, 130, 130, 255], annot_colour=[0, 255, 0, 255]):
     deco_model = initiate_model(model_path)
     
     smpl_path = os.path.join(constants.SMPL_MODEL_DIR, 'smpl_neutral_tpose.ply')
     
-    img = cv2.imread(img_src)
+    img = np.array(pil_img)
     img = cv2.resize(img, (256, 256), cv2.INTER_CUBIC)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = img.transpose(2,0,1)/255.0
     img = img[np.newaxis,:,:,:]
     img = torch.tensor(img, dtype = torch.float32).to(device)
