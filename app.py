@@ -224,9 +224,9 @@ def create_layout(dummy, camera=None):
 
     return layout
 
-def create_fig(dummy, colors=[], camera=None):
+def create_fig(dummy, camera=None):
     fig = go.Figure(
-        data=dummy.mesh_3d(colors),
+        data=dummy.mesh_3d(),
         layout=create_layout(dummy, camera))
     return fig
 
