@@ -221,6 +221,7 @@ def main(pil_img, out_dir='demo_out', model_path='checkpoint/deco_best.pth', mes
     return rend, os.path.join(mesh_out_dir, 'pred.obj') 
 
 with gr.Blocks(title="DECO", css=".gradio-container") as demo:
+    gr.Markdown(description)
 
     gr.HTML("""<h1 style="text-align:center; color:#10768c">DECO</h1>""")
 
