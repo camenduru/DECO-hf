@@ -112,7 +112,7 @@ def create_layout(dummy, camera=None):
             },
         },
         autosize=False,
-        width=800, height=1000,
+        width=750, height=1000,
         scene_camera=camera,
         scene_aspectmode="data",
         clickmode="event+select",
