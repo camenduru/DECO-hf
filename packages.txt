@@ -1,1 +1,2 @@
 freeglut3-dev
+libegl1
