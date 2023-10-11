@@ -1,6 +1,5 @@
 import torch
 import os
-import glob
 import numpy as np
 import cv2
 import PIL.Image as pil_img
@@ -19,7 +18,7 @@ import pyrender
 from models.deco import DECO
 from common import constants
 
-# os.environ['PYOPENGL_PLATFORM'] = 'osmesa'
+os.environ['PYOPENGL_PLATFORM'] = 'osmesa'
 
 if torch.cuda.is_available():
     device = torch.device('cuda')
