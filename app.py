@@ -199,7 +199,7 @@ def create_layout(dummy, camera=None):
                 'showgrid': False,
                 'zeroline': False,
                 'visible': False,
-                "range": [dummy.x.min(), dummy.x.max()]
+                "range": [dummy.x.min()-0.5, dummy.x.max()-0.5]
             },
             "yaxis": {
                 'showgrid': False,
