@@ -14,6 +14,7 @@ import gradio as gr
 
 import trimesh
 import pyrender
+import plotly.graph_objects as go
 
 from models.deco import DECO
 from common import constants
@@ -62,7 +63,16 @@ description = '''
 - [ECON](https://huggingface.co/spaces/Yuliang/ECON)
 
 </details>
-'''    
+'''   
+
+DEFAULT_LIGHTING = dict(
+    ambient=0.6,
+    diffuse=0.5,
+    fresnel=0.01,
+    specular=0.1,
+    roughness=0.001)
+
+DEFAULT_LIGHT_POSITION = dict(x=6, y=0, z=10)
 
 def initiate_model(model_path):
     deco_model = DECO('hrnet', True, device)
@@ -175,6 +185,134 @@ def initiate_model(model_path):
 #     IMG.thumbnail((3000, 3000))
 #     return IMG    
 
+def create_layout(dummy, camera=None):
+    if camera is None:
+        camera = dict(
+            up=dict(x=0, y=1, z=0),
+            center=dict(x=0, y=0, z=0),
+            eye=dict(x=dummy.x.mean(), y=0, z=3),
+            projection=dict(type='perspective'))
+
+    layout = dict(
+        scene={
+            "xaxis": {
+                'showgrid': False,
+                'zeroline': False,
+                'visible': False,
+                "range": [dummy.x.min(), dummy.x.max()]
+            },
+            "yaxis": {
+                'showgrid': False,
+                'zeroline': False,
+                'visible': False,
+                "range": [dummy.y.min(), dummy.y.max()]
+            },
+            "zaxis": {
+                'showgrid': False,
+                'zeroline': False,
+                'visible': False,
+                "range": [dummy.z.min(), dummy.z.max()]
+            },
+        },
+        autosize=False,
+        width=1000, height=1000,
+        scene_camera=camera,
+        scene_aspectmode="data",
+        clickmode="event+select",
+        margin={'l': 0, 't': 0}
+    )
+
+    return layout
+
+def create_fig(dummy, colors=[], camera=None):
+    fig = go.Figure(
+        data=dummy.mesh_3d(colors),
+        layout=create_layout(dummy, camera))
+    return fig
+
+class Dummy:
+
+    def __init__(self, mesh_path):
+        """A simple polygonal dummy with colored patches."""
+        self._load_trimesh(mesh_path)
+
+    def _load_trimesh(self, path):
+        """Load a mesh given a path to a .PLY file."""
+        self._trimesh = trimesh.load(path, process=False)
+        self._vertices = np.array(self._trimesh.vertices)
+        self._faces = np.array(self._trimesh.faces)
+        self.colors = self._trimesh.visual.vertex_colors
+
+    @property
+    def vertices(self):
+        """All the mesh vertices."""
+        return self._vertices
+
+    @property
+    def faces(self):
+        """All the mesh faces."""
+        return self._faces
+
+    @property
+    def n_vertices(self):
+        """Number of vertices in a mesh."""
+        return self._vertices.shape[0]
+
+    @property
+    def n_faces(self):
+        """Number of faces in a mesh."""
+        return self._faces.shape[0]
+
+    @property
+    def x(self):
+        """An array of vertex x coordinates"""
+        return self._vertices[:, 0]
+
+    @property
+    def y(self):
+        """An array of vertex y coordinates"""
+        return self._vertices[:, 1]
+
+    @property
+    def z(self):
+        """An array of vertex z coordinates"""
+        return self._vertices[:, 2]
+
+    @property
+    def i(self):
+        """An array of the first face vertices"""
+        return self._faces[:, 0]
+
+    @property
+    def j(self):
+        """An array of the second face vertices"""
+        return self._faces[:, 1]
+
+    @property
+    def k(self):
+        """An array of the third face vertices"""
+        return self._faces[:, 2]
+
+    @property
+    def default_selection(self):
+        """Default patch selection mask."""
+        return dict(vertices=[])
+
+    def mesh_3d(
+            self,
+            lighting=DEFAULT_LIGHTING,
+            light_position=DEFAULT_LIGHT_POSITION
+    ):
+        """Construct a Mesh3D object give a clickmask for patch coloring."""
+
+        return go.Mesh3d(
+            x=self.x, y=self.y, z=self.z,
+            i=self.i, j=self.j, k=self.k,
+            vertexcolor=self.colors,
+            lighting=lighting,
+            lightposition=light_position,
+            hoverinfo='none')
+
 def main(pil_img, out_dir='demo_out', model_path='checkpoint/deco_best.pth', mesh_colour=[130, 130, 130, 255], annot_colour=[0, 255, 0, 255]):
     deco_model = initiate_model(model_path)
     
@@ -219,7 +357,10 @@ def main(pil_img, out_dir='demo_out', model_path='checkpoint/deco_best.pth', mes
     print(f'Saving mesh to {mesh_out_dir}')
     body_model_smpl.export(os.path.join(mesh_out_dir, 'pred.obj'))
 
-    return rend, os.path.join(mesh_out_dir, 'pred.obj') 
+    dummy = Dummy(os.path.join(mesh_out_dir, 'pred.obj'))
+    fig = create_fig(dummy)
+
+    return fig, os.path.join(mesh_out_dir, 'pred.obj') 
 
 with gr.Blocks(title="DECO", css=".gradio-container") as demo:
     gr.Markdown(description)
@@ -230,7 +371,7 @@ with gr.Blocks(title="DECO", css=".gradio-container") as demo:
         with gr.Column():
             input_image = gr.Image(label="Input image", type="pil")
         with gr.Column():
-            output_image = gr.Image(label="Renders", type="pil")
+            output_image = gr.Plot(label="Renders")
             output_meshes = gr.File(label="3D meshes")
 
     gr.HTML("""<br/>""")
