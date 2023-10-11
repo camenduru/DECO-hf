@@ -1,4 +1,1 @@
-llvm-6.0
-freeglut3
 freeglut3-dev
-https://github.com/mmatl/travis_debs/raw/master/xenial/mesa_18.3.3-0.deb
