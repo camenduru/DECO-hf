@@ -19,7 +19,7 @@ import pyrender
 from models.deco import DECO
 from common import constants
 
-os.environ['PYOPENGL_PLATFORM'] = 'egl'
+os.environ['PYOPENGL_PLATFORM'] = 'osmesa'
 
 if torch.cuda.is_available():
     device = torch.device('cuda')
