@@ -43,7 +43,7 @@ description = '''
 <iframe src="https://ghbtns.com/github-btn.html?user=sha2nkt&repo=deco&type=star&count=true&v=2&size=small" frameborder="0" scrolling="0" width="100" height="20"></iframe>
 </th>
 <th width="40%">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/o7MLobqAFTQ?si=SYX_N4r0x0J_xxfe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/5PEd_p90kS0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </th>
 </table>
 
@@ -61,8 +61,10 @@ description = '''
 
 <details>
 <summary>More</summary>
+
 #### Acknowledgments:
 - [ECON](https://huggingface.co/spaces/Yuliang/ECON)
+
 </details>
 '''    
 
