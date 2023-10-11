@@ -96,7 +96,7 @@ def create_layout(dummy, camera=None):
                 'showgrid': False,
                 'zeroline': False,
                 'visible': False,
-                "range": [dummy.x.min()+0.5, dummy.x.max()+0.5]
+                "range": [dummy.x.min(), dummy.x.max()]
             },
             "yaxis": {
                 'showgrid': False,
@@ -112,7 +112,7 @@ def create_layout(dummy, camera=None):
             },
         },
         autosize=False,
-        width=1000, height=1000,
+        width=800, height=1000,
         scene_camera=camera,
         scene_aspectmode="data",
         clickmode="event+select",
