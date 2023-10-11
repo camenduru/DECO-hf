@@ -184,7 +184,7 @@ def main(pil_img, out_dir='demo_out', model_path='checkpoint/deco_best.pth', mes
 
 with gr.Blocks(title="DECO", css=".gradio-container") as demo:
 
-    gr.HTML("""<div style="font-weight:bold; text-align:center; color:royalblue;">DECO</div>""")
+    gr.HTML("""<h1 style="text-align:center; color:#10768c">DECO</h1>""")
 
     with gr.Row():
         with gr.Column():
