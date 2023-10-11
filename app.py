@@ -26,6 +26,44 @@ if torch.cuda.is_available():
 else:
     device = torch.device('cpu')
 
+description = '''
+### DECO: Dense Estimation of 3D Human-Scene Contact in the Wild (ICCV 2023, Oral)
+<table>
+<th width="20%">
+<ul>
+<li><strong><a href="https://deco.is.tue.mpg.de/">Homepage</a></strong>
+<li><strong><a href="https://github.com/sha2nkt/deco">Code</a></strong>
+<li><strong><a href="https://openaccess.thecvf.com/content/ICCV2023/html/Tripathi_DECO_Dense_Estimation_of_3D_Human-Scene_Contact_In_The_Wild_ICCV_2023_paper.html">Paper</a></strong>
+</ul>
+<br>
+<ul>
+<li><strong>Colab Notebook</strong> <a href='https://colab.research.google.com/drive/1fTQdI2AHEKlwYG9yIb2wqicIMhAa067_?usp=sharing'><img style="display: inline-block;" src='https://colab.research.google.com/assets/colab-badge.svg' alt='Google Colab'></a></li>
+</ul>
+<br>
+<iframe src="https://ghbtns.com/github-btn.html?user=sha2nkt&repo=deco&type=star&count=true&v=2&size=small" frameborder="0" scrolling="0" width="100" height="20"></iframe>
+</th>
+<th width="40%">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/o7MLobqAFTQ?si=SYX_N4r0x0J_xxfe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</th>
+</table>
+#### Citation
+```
+@InProceedings{tripathi2023deco,
+    author    = {Tripathi, Shashank and Chatterjee, Agniv and Passy, Jean-Claude and Yi, Hongwei and Tzionas, Dimitrios and Black, Michael J.},
+    title     = {{DECO}: Dense Estimation of {3D} Human-Scene Contact In The Wild},
+    booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+    month     = {October},
+    year      = {2023},
+    pages     = {8001-8013}
+}
+```
+<details>
+<summary>More</summary>
+#### Acknowledgments:
+- [ECON](https://huggingface.co/spaces/Yuliang/ECON)
+</details>
+'''    
+
 def initiate_model(model_path):
     deco_model = DECO('hrnet', True, device)
 
