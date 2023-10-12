@@ -273,12 +273,12 @@ with gr.Blocks(title="DECO", css=".gradio-container") as demo:
         send_btn.click(fn=main, inputs=[input_image], outputs=[output_image, output_meshes])
 
     example_images = gr.Examples([
-        ['/home/user/app/example_images/213.jpg'], 
-        ['/home/user/app/example_images/pexels-photo-207569.webp'], 
-        ['/home/user/app/example_images/pexels-photo-3622517.webp'], 
-        ['/home/user/app/example_images/pexels-photo-15732209.jpeg'], 
+        ['/content/DECO-hf/example_images/213.jpg'], 
+        ['/content/DECO-hf/example_images/pexels-photo-207569.webp'], 
+        ['/content/DECO-hf/example_images/pexels-photo-3622517.webp'], 
+        ['/content/DECO-hf/example_images/pexels-photo-15732209.jpeg'], 
         ], 
         inputs=[input_image])
 
 
-demo.launch(debug=True) 
+demo.launch(debug=True, share=True) 
